@@ -5,7 +5,7 @@ shanxun dail for pi like device
 
 pi等嵌入式设备上的闪讯拨号实现，事先安装python2 pycrypto
 
-脚本配合 cron 定时任务
+脚本配合 cron 定时任务 见sx.conf
 
 under GPL v2 License
 
