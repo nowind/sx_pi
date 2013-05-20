@@ -86,7 +86,10 @@ def HR30send1():
     sock.sendto(data,(server, 446))
     sock.close()
 def getIP(): #获取外网ip
-    res=urllib2.urlopen('http://whois.pconline.com.cn/ipJson.jsp',timeout=2000)
+    try:
+        res=urllib2.urlopen('http://whois.pconline.com.cn/ipJson.jsp',timeout=2000)
+    except:
+        return None
     if res.getcode()!=200:
         return None
     re=res.read().decode('gbk').encode('utf8')
