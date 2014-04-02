@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 #encoding=utf-8
 #该脚本请配合定时任务使用 建议的定时任务配置 见sx.conf
-#该版本为村python不依赖二进制编译库
+#该版本为纯python不依赖二进制编译库
 #代码的讲解注释见之前的版本
 import pyDes,pyAes,binascii
 import time,hashlib,struct,sys,socket,urllib2,json,re
