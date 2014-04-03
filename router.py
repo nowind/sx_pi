@@ -4,6 +4,9 @@ import urllib2
 from abc import ABCMeta,abstractmethod
 
 class Router(object):
+    '''
+    路由的抽象类，实现他的Dail函数
+'''
     __metaclass__ = ABCMeta
     def __init__(self):
         self._acc='admin'
@@ -21,6 +24,13 @@ class Router(object):
         self._pppoe_acc=user
         self._pppoe_pwd=pwd
         return self
+    def get(self,url):
+        req=urllib2.Request(url=url,headers={'Authorization':
+         self._genAuth()})
+        res=urllib2.urlopen(req,timeout=200)
+        r=res.read()
+        res.close()
+        return r
     def _genAuth(self):
         auth='%s:%s'%(self._acc,self._pwd)
         return 'Basic '+auth.encode("base64")[0:-1]

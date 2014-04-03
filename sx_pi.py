@@ -32,6 +32,10 @@ wantype=2&VnetPap=201&linktype=1&waittime=&Connect=%%C1%%AC+%%BD%%D3
     gRouter.setAcc(g_u,g_p)
     gRouter.setUrl(g_router_url)
     hb=sxbase.SxHeartBeat(g_u,g_p,g_log_prefix)
+    enc=sxbase.SxAccEncoder(g_u)
+    if not enc.check():
+        print 'Account Error'
+        return
     if (len(arg)>1):
         if arg[1]=='i':
             ip=net.getIP()
@@ -52,6 +56,9 @@ wantype=2&VnetPap=201&linktype=1&waittime=&Connect=%%C1%%AC+%%BD%%D3
             if not ip:
                 accs=log.getAccFromFile()
                 for i in accs:
+                    enc.update(i)
+                    if not enc.check():
+                        continue
                     gRouter.setAcc(i,g_p)
                     gRouter.Dail()
                     time.sleep(20)

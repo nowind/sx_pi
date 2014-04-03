@@ -1,15 +1,22 @@
 #!/usr/bin/env python2
 #encoding=utf-8
-import time,hashlib,struct,urllib2,time,sys,json,socket
+import time,hashlib,struct,urllib2,time,sys,json,socket,re
 import os.path
 import pyDes,pyAes,binascii
 class SxAccEncoder(object):
+    '''
+    负责账号的加密
+'''
     ENCODE_NONE=1
     ENCODE_ROUTER=2
     ENCODE_OTHER=3
     def __init__(self,acc='',e=ENCODE_NONE):
         self._acc=acc
         self._e=e
+    def check(self):
+        if not re.search('\d{10,15}@dzkd.xy',self._acc,re.IGNORECASE):
+            return False
+        return True
     def update(self,acc):
         self._acc=acc
     def encode(self):
@@ -42,6 +49,9 @@ class SxAccEncoder(object):
             PIN='\x0D\x0A'+PIN
         return PIN
 class NetUtil(object):
+    '''
+    负责网络连通性检测
+'''
     def getIP(self):
         try:
             res=urllib2.urlopen('http://whois.pconline.com.cn/ipJson.jsp',timeout=2000)
@@ -54,6 +64,9 @@ class NetUtil(object):
         re=re[re.rfind('{'):re.find('}')+1]
         return json.loads(re)
 class SxLog(object):
+    '''
+    负责日志，key等信息
+'''
     def __init__(self,prefix='/tmp/'):
         self._prefix=prefix
     def logtime(self):
@@ -82,6 +95,9 @@ class SxLog(object):
                 acc.append(f.readline().replace('\n',''))
         return acc
 class SxHeartBeat(object):
+    '''
+    主心跳
+'''
     def __init__(self,acc,pwd,mac=None,pre='/tmp/'):
         self._server='pppoeh.114school.cn'
         self._acc=acc
