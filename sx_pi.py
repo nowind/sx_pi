@@ -7,7 +7,7 @@ def main():
     '''
     这里配置信息
     '''
-    g_u='' #闪讯帐号
+    g_u='@dzkd.xy' #闪讯帐号
     g_p='' #闪讯密码
     g_router_acc='admin' #路由的登陆用户名和密码
     g_router_pw='admin'
@@ -31,7 +31,7 @@ wantype=2&VnetPap=201&linktype=1&waittime=&Connect=%%C1%%AC+%%BD%%D3
     gRouter.setLogin(g_router_ip,g_router_acc,g_router_pw)
     gRouter.setAcc(g_u,g_p)
     gRouter.setUrl(g_router_url)
-    hb=sxbase.SxHeartBeat(g_u,g_p,g_log_prefix)
+    hb=sxbase.SxHeartBeat(g_u,g_p,None,g_log_prefix)
     enc=sxbase.SxAccEncoder(g_u)
     if not enc.check():
         print 'Account Error'

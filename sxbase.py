@@ -21,6 +21,7 @@ class SxAccEncoder(object):
         self._acc=acc
     def encode(self):
         RAD="zjxinlisx01"
+        us=self._acc
         timeHash=[0,0,0,0]
         timedivbyfive=int(time.time())//5
         for i in range(0,4):
@@ -41,11 +42,11 @@ class SxAccEncoder(object):
         for i in range(6):
             PIN27[i]={True:(PIN27[i]+0x20)&0xff,False:(PIN27[i]+0x21)&0xff}[((PIN27[i]+0x20)&0xff)<0x40]
         for i in range(6):
-                PIN2=PIN2+chr(PIN27[i])
+            PIN2=PIN2+chr(PIN27[i])
         PIN=PIN2+pk+us #'\x0D\x0A'+
-        if self._e==ENCODE_ROUTER:
+        if self._e==self.ENCODE_ROUTER:
             PIN='%0D%0A'+PIN
-        elif self._e==ENCODE_OTHER:
+        elif self._e==self.ENCODE_OTHER:
             PIN='\x0D\x0A'+PIN
         return PIN
 class NetUtil(object):
@@ -80,7 +81,7 @@ class SxLog(object):
             key='123456'
         else:
             with open(self._prefix+"sxkey",'r+') as file:
-                    key=file.read()
+                key=file.read()
         return key
     def writekey(self,mykey):
         with open(self._prefix+'sxkey','w+') as f:
@@ -112,12 +113,12 @@ class SxHeartBeat(object):
     def setNewAcc(self,acc,pwd):
         self._acc=acc
         self._pwd=pwd
-    def _padData(self,s):
-        l=(8-len(s)%8)%8 #填充
+    def _padData(self,s,length=16):
+        l=(length-len(s)%length)%length #填充
         return s+l*chr(l)
     def HR10(self): #心跳包
         sock=socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        ramdata=self._padData('type=6;%did=%s&pwd=%s;ver=%s;time=%d') #原始数据
+        ramdata=self._padData('type=6;%did=%s&pwd=%s;ver=%s;time=%d',8) #原始数据
         data='%s%s%s%s'%('HR10',#header
                          '\x05\x00\x00\x00',#
                          '\x28',#size
@@ -158,7 +159,7 @@ class SxHeartBeat(object):
         data='%s%s%s%s'%('HR30',
                          '\x02\x05\x00\x00\x00',
                          chr(len(ramdata)),
-                         self._aes.encrypt(ramdata))
+                         self._aes.encrypt(ramdata.encode('ascii')))
         sock.settimeout(2.0)
         sock.sendto(data,(self._server, 443))
         buff=sock.recvfrom(200)
@@ -166,9 +167,9 @@ class SxHeartBeat(object):
         sock.close()
         log.writekey(mykey)
     def SendAllHB(self):
-        HR10()
-        HR20()
-        HR30send1()
-        HR30send2()
+        self.HR10()
+        self.HR20()
+        self.HR30send1()
+        self.HR30send2()
         time.sleep(1)
-        HR30send2()
+        self.HR30send2()
