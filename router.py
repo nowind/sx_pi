@@ -25,7 +25,7 @@ class Router(object):
         self._pppoe_pwd=pwd
         return self
     def get(self,url):
-        req=urllib2.Request(url=url,headers={'Authorization':
+        req=urllib2.Request(url='http://'+self._ip+url,headers={'Authorization':
          self._genAuth()})
         res=urllib2.urlopen(req,timeout=200)
         r=res.read()
