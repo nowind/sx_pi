@@ -10,7 +10,7 @@ class SxAccEncoder(object):
     ENCODE_NONE=1
     ENCODE_ROUTER=2
     ENCODE_OTHER=3
-    def __init__(self,acc='',e=ENCODE_NONE):
+    def __init__(self,acc='',e=1):
         self._acc=acc
         self._e=e
     def check(self):
