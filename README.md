@@ -12,3 +12,7 @@ pi等嵌入式设备上的闪讯拨号实现
 under GPL v2 License
 
 refer http://www.gnu.org/licenses/gpl-2.0.html
+
+已经开通闪讯相关的微信公众号:ihdusx,欢迎大家关注留言
+
+提供短信获取，伪静态密码等服务
