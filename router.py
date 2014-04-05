@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 #encoding=utf-8
-import urllib2
+import urllib2,copy
 from abc import ABCMeta,abstractmethod
 
 class Router(object):
@@ -24,9 +24,10 @@ class Router(object):
         self._pppoe_acc=user
         self._pppoe_pwd=pwd
         return self
-    def get(self,url):
-        req=urllib2.Request(url='http://'+self._ip+url,headers={'Authorization':
-         self._genAuth()})
+    def get(self,url,headers={}):
+        reqheader=copy.deepcopy(headers)
+        reqheader.update(self._genAuthHeader())
+        req=urllib2.Request(url='http://'+self._ip+url,headers=reqheader)
         res=urllib2.urlopen(req,timeout=200)
         r=res.read()
         res.close()
@@ -34,9 +35,13 @@ class Router(object):
     def _genAuth(self):
         auth='%s:%s'%(self._acc,self._pwd)
         return 'Basic '+auth.encode("base64")[0:-1]
+    def _genAuthHeader(self):
+        baseauth=self._genAuth()
+        return {'Authorization':baseauth}
     def _getCookie(self):
         try:
-            req=urllib2.Request('http://'+self._ip,headers={'Authorization':self._genAuth})
+            header=self._genAuthHeader()
+            req=urllib2.Request('http://'+self._ip,headers=header)
             res=urllib2.urlopen(req,timeout=200)
             c=res.info().getheader('Set-Cookie')
             res.close()
