@@ -1,8 +1,11 @@
 #!/usr/bin/env python2
 #encoding=utf-8
 #该脚本请配合定时任务使用 建议的定时任务配置 见sx.conf
-import sys,tprouter,sxbase
-
+import sys,tprouter,sxbase,time
+#杭电的路由不能拨号是因为被重点照顾了。。。
+#证实算法是没问题，那边的pppoe的认证检测路由了
+#有openwrt的尝试下问题出在哪里
+#暂时不在学校，需要其他人研究下
 def main():
     '''
     这里配置信息
