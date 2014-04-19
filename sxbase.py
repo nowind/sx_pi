@@ -1,8 +1,9 @@
 #!/usr/bin/env python2
 #encoding=utf-8
-import time,hashlib,struct,urllib2,time,sys,json,socket,re
+import time,hashlib,struct,urllib2,time,sys,json,socket,re,urllib
 import os.path
 import pyDes,pyAes,binascii
+#未对账号进行正确编码导致上次的问题
 class SxAccEncoder(object):
     '''
     负责账号的加密
@@ -44,10 +45,10 @@ class SxAccEncoder(object):
         for i in range(6):
             PIN2=PIN2+chr(PIN27[i])
         PIN=PIN2+pk+us #'\x0D\x0A'+
-        if self._e==self.ENCODE_ROUTER:
-            PIN='%0D%0A'+PIN
-        elif self._e==self.ENCODE_OTHER:
+        if self._e!=self.ENCODE_NONE:
             PIN='\x0D\x0A'+PIN
+        if self._e==self.ENCODE_ROUTER:
+            PIN=urllib.quote(PIN)
         return PIN
 class NetUtil(object):
     '''
