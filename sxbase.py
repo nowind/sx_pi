@@ -21,7 +21,7 @@ class SxAccEncoder(object):
     def update(self,acc):
         self._acc=acc
     def encode(self):
-        RAD="zjxinlisx01"
+        RAD="singlenet01"
         us=self._acc
         timeHash=[0,0,0,0]
         timedivbyfive=int(time.time())//5
