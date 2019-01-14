@@ -9,9 +9,8 @@ pi等嵌入式设备上的闪讯拨号实现
 
 在sx_pi.py进行配置，实现对应的路由
 
-under GPL v2 License
+under [GPL v2 License](http://www.gnu.org/licenses/gpl-2.0.html)
 
-refer http://www.gnu.org/licenses/gpl-2.0.html
 
 已经开通闪讯相关的微信公众号:ihdusx,欢迎大家关注留言
 
